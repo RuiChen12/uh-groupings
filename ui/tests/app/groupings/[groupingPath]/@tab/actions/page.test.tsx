@@ -2,8 +2,8 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import ActionsTab from '@/app/groupings/[groupingPath]/@tab/actions/page';
 
-
-vi.mock('@/app/groupings/[groupingPath]/@tab/actions/action', () => ({
+vi.mock('@/app/groupings/[groupingPath]/@tab/_components/grouping-actions', () => ({
+    __esModule: true,
     default: ({ groupingPath }: { groupingPath: string }) => (
         <div>Mocked Actions Component: {groupingPath}</div>
     ),

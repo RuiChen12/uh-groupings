@@ -1,7 +1,13 @@
+vi.mock('next/navigation', () => ({
+    useRouter: () => ({
+        refresh: vi.fn(),
+    }),
+}));
+
 import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import SyncDestinations from '@/app/groupings/[groupingPath]/@tab/sync-destinations/sync-destinations';
+import SyncDestinations from '@/app/groupings/[groupingPath]/@tab/_components/sync-destinations';
 import { updateSyncDest } from '@/lib/actions';
 
 vi.mock('@/lib/actions');
@@ -20,21 +26,21 @@ beforeAll(() => {
 describe('SyncDestinations Component', () => {
     const syncDestArray = [
         {
-            syncDestId: 'g1',
+            name: 'g1',
             description: 'Google Groups',
             tooltip: 'Syncs with Google',
             synced: true,
             hidden: false,
         },
         {
-            syncDestId: 'ldap1',
+            name: 'ldap1',
             description: 'LDAP',
             tooltip: 'Syncs with LDAP',
             synced: false,
             hidden: false,
         },
         {
-            syncDestId: 'h1',
+            name: 'h1',
             description: 'Hidden Group',
             tooltip: 'Should not be shown',
             synced: true,
@@ -89,7 +95,7 @@ describe('SyncDestinations Component', () => {
         const icon = screen.getByTestId('info-icon-g1');
         await user.click(icon);
         expect(await screen.findByText('Syncs with Google')).toBeInTheDocument();
-        const okBtn = screen.getByRole('button', { name: /ok/i });
+        const okBtn = screen.getByRole('button', { name: /Cancel/i });
         await user.click(okBtn);
         await waitFor(() => {
             expect(screen.queryByText('Syncs with Google')).not.toBeInTheDocument();
@@ -157,7 +163,7 @@ describe('SyncDestinations Component', () => {
     it('opens dynamic modal with empty body if tooltip is missing', async () => {
         const noTooltipArray = [
             {
-                syncDestId: 'no-tip',
+                name: 'no-tip',
                 description: 'NoTooltipDest',
                 synced: false,
                 hidden: false,
@@ -170,7 +176,7 @@ describe('SyncDestinations Component', () => {
         const modal = await screen.findByRole('alertdialog', { name: /sync destinations information/i });
         expect(modal).toBeInTheDocument();
         expect(screen.queryByText('Hello tooltip')).not.toBeInTheDocument();
-        const okBtn = screen.getByRole('button', { name: /ok/i });
+        const okBtn = screen.getByRole('button', { name: /Cancel/i });
         expect(okBtn).toBeInTheDocument();
         await user.click(okBtn);
         await waitFor(() => {

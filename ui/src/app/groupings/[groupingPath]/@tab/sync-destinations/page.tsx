@@ -1,11 +1,11 @@
 import { groupingSyncDest } from '@/lib/fetchers';
-import SyncDestinations from './sync-destinations';
+import SyncDestinations from '@/app/groupings/[groupingPath]/@tab/_components/sync-destinations';
 
 const SyncDestinationsTab = async ({ params }: { params: { groupingPath: string } }) => {
     const syncDestinations = await groupingSyncDest(params.groupingPath);
     const syncDestArray = syncDestinations.syncDestinations;
     const processedSyncDestArray = syncDestArray.map(dest => ({
-        syncDestId: dest.name,
+        name: dest.name,
         description: dest.description,
         synced: dest.synced,
         hidden: dest.hidden,

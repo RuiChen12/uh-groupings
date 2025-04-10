@@ -18,7 +18,7 @@ vi.mock('@/lib/fetchers', () => ({
     groupingSyncDest: vi.fn(),
 }));
 
-vi.mock('@/app/groupings/[groupingPath]/@tab/sync-destinations/sync-destinations', () => ({
+vi.mock('@/app/groupings/[groupingPath]/@tab/_components/sync-destinations', () => ({
     default: ({ syncDestArray, groupingPath }: any) => (
         <div>
             <div>Mocked SyncDestinations Component</div>
@@ -48,7 +48,6 @@ describe('SyncDestinationsTab (Server Component)', () => {
                 },
             ],
         };
-
         (groupingSyncDest as unknown as vi.Mock).mockResolvedValue(mockData);
         const result = await SyncDestinationsTab({ params: { groupingPath: 'test:group' } });
         render(result);
@@ -56,7 +55,6 @@ describe('SyncDestinationsTab (Server Component)', () => {
         expect(await screen.findByText('Mocked SyncDestinations Component')).toBeInTheDocument();
         expect(screen.getByText('groupingPath: test:group')).toBeInTheDocument();
         expect(screen.getByText('syncDestCount: 2')).toBeInTheDocument();
-
         expect(groupingSyncDest).toHaveBeenCalledWith('test:group');
     });
 });

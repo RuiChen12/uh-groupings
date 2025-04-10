@@ -7,26 +7,26 @@ import {
     AlertDialogDescription,
     AlertDialogTitle,
     AlertDialogFooter,
-    AlertDialogCancel
+    AlertDialogCancel,
 } from '@/components/ui/alert-dialog';
 import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 
 const DynamicModal = ({
-                          open,
-                          title,
-                          body,
-                          warning,
-                          buttons,
-                          cancelText = 'Cancel',
-                          onClose
-                      }: {
+    open,
+    title,
+    body,
+    warning,
+    buttons,
+    closeText = 'Cancel',
+    onClose,
+}: {
     open: boolean;
     title: string;
     body: string;
     warning?: string;
     buttons?: ReactNode[];
-    cancelText?: string;
+    closeText?: string;
     onClose: () => void;
 }) => {
     return (
@@ -37,7 +37,7 @@ const DynamicModal = ({
                     <AlertDialogDescription>{body}</AlertDialogDescription>
                     {warning && (
                         <AlertDialogDescription>
-                            <div className='bg-yellow-100 border border-yellow-200 p-3 rounded-md ml-2.5'>
+                            <div className="bg-yellow-100 border border-yellow-200 p-3 rounded-md ml-2.5">
                                 {warning}
                             </div>
                         </AlertDialogDescription>
@@ -45,11 +45,15 @@ const DynamicModal = ({
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     {buttons?.map((button, index) => (
-                        <Button key={index} onClick={onClose}>
+                        <Button
+                            key={index}
+                            onClick={onClose}
+                            className="bg-uh-teal text-white hover:bg-uh-teal/90"
+                        >
                             {button}
                         </Button>
                     ))}
-                    <AlertDialogCancel onClick={onClose}>{cancelText}</AlertDialogCancel>
+                    <AlertDialogCancel onClick={onClose}>{closeText}</AlertDialogCancel>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -1,7 +1,14 @@
+vi.mock('next/navigation', () => ({
+    useRouter: () => ({
+        refresh: vi.fn(),
+    }),
+}));
+
+
 import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Preferences from '@/app/groupings/[groupingPath]/@tab/preferences/preference';
+import Preferences from '@/app/groupings/[groupingPath]/@tab/_components/preference';
 import { updateOptIn, updateOptOut } from '@/lib/actions';
 
 vi.mock('@/lib/actions');

@@ -1,7 +1,13 @@
+vi.mock('next/navigation', () => ({
+    useRouter: () => ({
+        refresh: vi.fn(),
+    }),
+}));
+
 import { describe, it, vi, expect, beforeEach, beforeAll } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import Actions from '@/app/groupings/[groupingPath]/@tab/actions/action';
+import Actions from '@/app/groupings/[groupingPath]/@tab/_components/grouping-actions';
 import {
     resetIncludeGroup,
     resetIncludeGroupAsync,
@@ -214,18 +220,20 @@ describe('Actions Component', () => {
     it('opens and closes the dynamic modal', async () => {
         render(<Actions groupingPath={shortGroupingPath} />);
         const user = userEvent.setup();
-        const icon = document.querySelector('.w-6.h-6');
-        expect(icon).toBeInTheDocument();
-        await user.click(icon!.parentElement!);
+        const icon = screen.getByTestId('actions-tooltip-icon');
+        await user.click(icon);
         const dynamicModal = await screen.findByRole('alertdialog', { name: /actions information/i });
         expect(dynamicModal).toBeInTheDocument();
-        expect(dynamicModal).toHaveTextContent('Reset the grouping by removing all of the members in the include or exclude or both.');
+        expect(dynamicModal).toHaveTextContent(
+            'Reset the grouping by removing all of the members in the include or exclude or both.'
+        );
         const okBtn = screen.getByRole('button', { name: /ok/i });
         await user.click(okBtn);
         await waitFor(() => {
             expect(screen.queryByRole('alertdialog', { name: /actions information/i })).not.toBeInTheDocument();
         });
     });
+
 
     it('submits the form and triggers preventDefault to prevent page reload', () => {
         render(<Actions groupingPath="test:group" />);

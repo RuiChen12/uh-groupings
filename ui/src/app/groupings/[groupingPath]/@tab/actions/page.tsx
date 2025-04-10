@@ -1,4 +1,4 @@
-import Actions from './action';
+import Actions from '@/app/groupings/[groupingPath]/@tab/_components/grouping-actions';
 
 const ActionsTab = ({ params }: { params: { groupingPath: string } }) => {
     const { groupingPath } = params;
